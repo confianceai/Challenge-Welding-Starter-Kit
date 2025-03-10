@@ -1,3 +1,7 @@
+"""
+This module contains all intermediate functions involved in uncertainty metrics computations (metrics u_gain, and u_calib)
+"""
+
 from abc import ABC
 import numpy as np
 import sklearn as sk

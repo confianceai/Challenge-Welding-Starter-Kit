@@ -1,5 +1,8 @@
-#Module to define dataloader 
+"""
+This module contains the code used to create a pytorch dataset thatt is connected to the challenge storage repository
+"""
 
+# Import dependencies modules
 from torch.utils.data import Dataset, DataLoader
 import challenge_welding.user_interface
 from PIL import Image
@@ -10,6 +13,8 @@ class ChallengeWeldingDataset(Dataset):
     
     def __init__(self, meta_df,resize=None,cache_strategy="remote",cache_dir=".cache"):
         """
+        This class defines a pytorch dataset that is connected to the challenge repository 
+
         Arguments:
             meta_df: pd.Dataframe
                 Pandas dataframe file containing all your dataset metadata.
@@ -30,7 +35,13 @@ class ChallengeWeldingDataset(Dataset):
         return len(self.meta_df)
 
     def __getitem__(self, idx):
-        """ This method return a dict containing two key:
+        """ 
+        Parameters :
+            idx: int
+                Index of the sample you want to get in the dataset
+        
+        Return : dict
+            A dict containing two key:
             
             "image" : np.array
                 Image numpy array

@@ -1,5 +1,6 @@
-# This class provide function to interact with dataset of challenge Welding
-# Irt SystemX 2025
+"""
+This module contains a class of useful functions to help the user of the challenge Welding to interact with the datasets
+"""
 
 # list all required imports
 import pandas as pd
@@ -17,36 +18,36 @@ import urllib.request
 class ChallengeUI:
     """This class provide the user some useful functions to interact with the datasets of the challenge Welding"""
     
-    def __init__(self, cache_strategy="remote",cache_dir=".cache"):
+    def __init__(self, 
+                cache_strategy="remote",
+                cache_dir=".cache", 
+                base_url="https://minio-storage.apps.confianceai-public.irtsysx.fr/",
+                ds_meta_path="challenge-welding/datasets_list.yml"):
         """
         Inputs:
 
-        cache_strategy:  str  in ["local", "remote"]
-            If it is set to "local", all images will be locally stored in a cache directory, when used.
-            If if is set on "remote", all image will stay on remote server when used.
+            cache_strategy:  str  in ["local", "remote"]
+                If it is set to "local", all images will be locally stored in a cache directory, when used.
+                If if is set on "remote", all image will stay on remote server when used.
+            
+            cache_dir: str
+                Directory that shall be used to store cache data
 
-        Attributes:
-        
-        vase_url : str
-             Storage root_url where challenge is stored
-        
-        ds_list : str 
-            Path to the yaml file containing the list of the chhallenge available datasets
-        
-        cache_strategy : 
-            store the corresponding input
+            base_url : str
+                Root url to the challenge storage
 
-        cache_dir :
-            Store the corresponding input    
+            ds_meta_path : str
+                Relative path to dataset list in challenge storage
 
-        """
+            """
         
         if not cache_strategy in ["local","remote"]:
             raise Exception("Error the cache strategy is not recognized")
+
         self.cache_strategy=cache_strategy
         self.cache_dir=cache_dir
-        self.base_url="https://minio-storage.apps.confianceai-public.irtsysx.fr/"
-        self.ds_list=self.base_url+"challenge-welding/datasets_list.yml" # The list of dataset is always at this path
+        self.base_url=base_url
+        self.ds_list=self.base_url+ds_meta_path 
 
     def list_datasets(self):
         """Class method list the names of datasets available in the challenge
@@ -64,7 +65,7 @@ class ChallengeUI:
                    
 
     def get_ds_metadata_dataframe(self,ds_name):
-        """This method return a pandas dataframe containing all metadata of the dataset whose name is given as input
+        """This method returns a pandas dataframe containing all metadata of the dataset whose name is given as input
         
         Args:
         
@@ -73,7 +74,7 @@ class ChallengeUI:
             
         Returns:
 
-        pd.DataFrame : A dataframe containing all you dataset metadata
+        pandas.DataFrame : A dataframe containing all you dataset metadata
         
         """
         try:
@@ -92,9 +93,8 @@ class ChallengeUI:
         image_url : str
             Url of the image that you want to open
                
-        Returns: 
-        
-        np.array : Numpy array representing the tensor of the input image
+        Returns: numpy.array : 
+            Numpy array representing the tensor of the input image
         
         """
         
@@ -111,7 +111,7 @@ class ChallengeUI:
                 
             else: # else download it from remote repository . .
                 
-                # print("image not found in cache , download the file")
+                # print("image not found in cache , downloading the file . .")
                 # print("local_image_path",local_image_path)
                 
                 response=requests.get(remote_image_url)
@@ -125,12 +125,12 @@ class ChallengeUI:
                     os.makedirs(os.sep.join(local_image_path.split(os.sep)[:-1]))
                 img.save(local_image_path)
 
-        else: #Directly download image from remote repository
+        else: # Directly download image from remote repository
             response=requests.get(remote_image_url)
             if response.status_code==200:
                 img = Image.open(BytesIO(response.content)) 
             else:
-                raise Exception(" Error , there is no image present on the repository, at this url", image_url)
+                raise Exception(" Error , there is no image present on the repository at this url", image_url)
         
         return np.asarray(img)
         
@@ -202,10 +202,10 @@ class ChallengeUI:
             batch_size : int
                 Size of the batch
                 
-            num_worker :
-            
-            shuffle:
-            
+            num_worker : int
+                Number of workers to be used
+            shuffle: bool
+
             Return :
                 A pytorch dataloader browsing dataset covered by your input meta dataframe
         """
@@ -220,7 +220,7 @@ class ChallengeUI:
                        
             local_meta_path=self.cache_dir+os.sep+"local_storage_meta.parquet"
             
-            #If metadata have already been downloaded in cache directory (we check specific parquet existence file for that)
+            # If metadata have already been downloaded in cache directory (we check specific parquet existence file for that)
             if os.path.exists(local_meta_path):  
                 
                 print("Cache directory has already been built, loading local metadata..")

@@ -1,4 +1,8 @@
-# Tools function for evaluate solution quality
+"""
+This module contains all code needed by the evaluation pipeline
+"""
+
+# Import here all required dependencies
 
 import sys
 import os
@@ -12,20 +16,25 @@ from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import yaml
-# Function used by the evaluation pipeline to build the confusion matrix
+
+
 def plot_confusion_matrix(y_true, y_pred, classes, output_file,
                           title='Confusion matrix',
                           cmap=plt.cm.Blues):
     """
-    This function prints and plots the confusion matrix.
-    Normalization can be applied by setting `normalize=True`
+    This function prints and plots the confusion matrix. It is used  during the computation of operational metrics
     Parameters:
         y_true: list[str]
             List containing ground truth
         y_pred: list[str] or np;array
             List containing predictions
+        classes: list[str]
+            List of labels to use in confusion matrix plot
         output_file :str
             path to file to store confusion matrix as image
+    
+    Return numpy.array
+        Numpy array containing the confusion amtrix
     """
    
     # Compute confusion matrix using sklearn
@@ -59,7 +68,8 @@ def plot_confusion_matrix(y_true, y_pred, classes, output_file,
 #=============================================================================================  
 class EvaluationPipeline:
     """
-    This class instanciate an evaluation pipeline. With it, you can , use the Ai component in inference and generate quality metrics
+    This class instanciate an evaluation pipeline. With it, you can use the AI component in inference and generate different quality metrics.
+    For now,  only 2 quality metrics are integrated for demonstration : operationnal metrics, and uncertainty metrics.
     Parameters:
         proposed_solution_path : str 
             Path to the local dirictory containing the python package of the AI component to evaluate 
@@ -68,7 +78,7 @@ class EvaluationPipeline:
         cache_strategy: str in ["local","remote"]
             If on "local" : all image used in pipeline for evaluation are locally downloaded in cache in the first time. If on "remote" no cache is used and images are always downloaded when used
         cache_dir : str
-            Path of cache directory when it is activated with previous parameters
+            Path of the cache directory used when it is activated with cache_strategy
     """  
     def __init__(self,proposed_solution_path,meta_root_path,cache_strategy="remote",cache_dir=".cache_pipeline"):
         
@@ -76,26 +86,31 @@ class EvaluationPipeline:
         self.AI_component_path=proposed_solution_path   
         self.cache_strategy=cache_strategy
         self.cache_dir=cache_dir
+
+        # The two next line are just for debugging the component execution without having to install its package
+
         # if self.AI_component_path!=None:
-            # sys.path.insert(0, proposed_solution_path) # Add Ai component path to python path thus the AI_component class is accessible  
+            # sys.path.insert(0, proposed_solution_path) # Add AI component path to python path thus the AI_component class is accessible without pkg installation 
                         
     def load_proposed_solution(self):
         """
-        This method load the AI component as member of this class in field self.AIComponent : To that
-        - Installation of the AI comp package in the evaluatrion python environement
+        This method load the AI component as member of this class in field self.AIComponent. This process is divided into two main steps :
+        - Installation of the AI comp package in the evaluation python environement
         - Call of the load_model() method of the AI component interface.
         """
         
         import subprocess
         
         req_file_path=self.AI_component_path+"\\requirements.txt"
+        
+        # Save the pipeline active directory
         pipeline_dir=os.getcwd()
         
-        # Installation of Ai component package in the active virtual environement
+        # Installation of AI component package in the active virtual environement
         
         subprocess.check_call(["pip", "install", self.AI_component_path])
         
-        # Set python interpreter at the root directory of AI component (in case of Ai component load_model() method use a local files)
+        # Set python interpreter at the root directory of AI component (in case of Ai component load_model() method need to access local files)
         os.chdir(self.AI_component_path)
         from challenge_solution.AIComponent import MyAIComponent
         
@@ -112,20 +127,24 @@ class EvaluationPipeline:
       
     def perform_grouped_inference(self,evaluation_dataset,results_inference_path,batch_size=10):
         """
-         This function perform inference of each sample of the input dataset. It adds results fields ["predicted_state", "score_OK", score KO"] 
-         to the input dataframe and store results in a parquet file.
+        This function perform inference of each sample of the input dataset. It adds results fields ["predicted_state", "score_OK", score KO"] 
+        to the evaluation dataset metainfo dataframe given as input and store the obtained new dataframe in a parquet file.
   
-     Parameters: 
-        evaluation_dataset: DatraFrame representing metadata of your evaluation dataset
-        result_inference_path : path of inference results parquet file
+        Parameters: 
+            evaluation_dataset: pandas.DataFrame
+                DatraFrame representing metadata of your evaluation dataset
+            result_inference_path : str
+                Path of inference results parquet file
+            batch_size: int
+                Number of grouped samples you pass as input when calling the AI component
 
-    Return : Pandas dataframe containing metadata dataframe augmented with inference results
+        Return : pandas.DataFrame
+            Pandas dataframe containing evaluation dataset metadata dataframe augmented with inference results
     """
     
-        #Load metadata of eval dataset
+        #Load metadata of eval dataset and copy them in a new dataframe for working .
 
         output_df=evaluation_dataset.copy()
-        # output_df=output_df.iloc[0:55] # just for saving time in debug
         output_df.set_index("sample_id",inplace=True)
         total_deb=time.time()
         
@@ -165,13 +184,13 @@ class EvaluationPipeline:
                 batch_images_meta.append(image_meta)
                 batch_images_data.append(image_data)
         
-            # Call AI component for this batch
+            # Call AI component and pass the batch content as input
             
             inference_start_time = time.time()           
             results=self.AIComponent.predict(batch_images_data,batch_images_meta)
             inference_end_time=time.time()
             
-            # Update meta dataframe with inference results for samples in the current batch
+            # Update meta dataframe with inference results for all samples in the current batch
             
             output_df.loc[batch_sample_ids,"predicted_state"]=results["predictions"]
             output_df.loc[batch_sample_ids,"scores KO"]=[x[0] for x in results["probabilities"]]
@@ -190,11 +209,13 @@ class EvaluationPipeline:
         
         output_path=results_inference_path
         
-        if not output_path.split("/")[0] in ["", output_path]: # Create results output directory  if it doesnot exists
+        # Create results output directory  if it does not exists
+        if not output_path.split("/")[0] in ["", output_path]: 
                 if not os.path.exists("/".join(output_path.split("/")[:-1])):
                     os.makedirs("/".join(output_path.split("/")[:-1]))
-                      
-        output_df.to_parquet(output_path) # Export metadataframe to parquet file
+
+        # Export metadataframe to parquet file              
+        output_df.to_parquet(output_path) 
         total_fin=time.time()
         print("cumulated inference time ",total_fin-total_deb)
 
@@ -204,17 +225,22 @@ class EvaluationPipeline:
     def compute_operationnal_metrics(self,AIcomp_name,res_inference_path):
         """
         This methoid generate operationnal metrics used to evaluate solution quality  
-        It use only internal result_parquet file as input.
+        It use only internal result inference parquet file of inference process as input.
+        The computed metrics are stored in a yaml file named "operationnal_scores.yaml" and stored in the pipeline results folder.
+        The  confusion matrix generated during computations is also stored as png image in the pipeline results folder.
+
         Parameters:
-            Aicomp_name: Name that will be just used as name for metric results output folder 
-            res_inference_path : Path to parquet file containing inference results of your AI component
+            AIcomp_name: str
+                 Name that will be just used as name for metric results output folder 
+            res_inference_path : str
+                Path to parquet file containing inference results of your AI component
         """
         
         # Read inference file
         res_df=pd.read_parquet(res_inference_path)       
         output_path=self.meta_root_path+"/operationnal_cm.png"
         
-        # Create outupt metric results directory if it doesnot exists
+        # Create outupt metric results directory if it does not exists
         if not output_path.split("/")[0] in ["", output_path]: # Create meta folder if it does not exists
                 if not os.path.exists("/".join(output_path.split("/")[:-1])):
                     os.makedirs("/".join(output_path.split("/")[:-1]))
@@ -240,12 +266,12 @@ class EvaluationPipeline:
             nb_pred_unknown=cm[:,2].sum() # Number of weldings predicted as Unknown
         nb_pred_KO=cm[:,0].sum() # Number of weldings predicted as KO
         nb_FN=cm[0,1] # Number of false negative
-        nb_operator_controlled=nb_pred_unknown+nb_pred_KO # Number of image that will be operatoinnaly controlled by operator (meaning weldings predicted Unknown or KO)
+        nb_operator_controlled=nb_pred_unknown+nb_pred_KO # Number of image that will be operationnaly controlled by operator (meaning weldings predicted Unknown or KO by AI comp)
         total_nb_welding=cm.sum() # Total number of welding to be processed
                     
         print("Number of operator controlled image", nb_operator_controlled)
         
-        # cost of single analysis
+        # Cost of single analysis 
         cost_operator_analyze=0 # unit cost of qualify a weld image by human
         cost_IA_analyze=0 # unit cost of qualify a weld image by AI
        
@@ -296,7 +322,15 @@ class EvaluationPipeline:
     def transform_class(self,label):
         """
         Transformation function to encodes the predictions column from strings to integers. This function is necessary to be compatible with some sklearn 
-        functions used in the next uncertainty metrics computation function
+        functions used in the uncertainty metrics computation function
+
+        Parameters :
+            label : str
+                Input label to transform 
+
+        Return : int
+            Integer representing the converted label
+
         """   
         if label=="OK":
             return 1
@@ -307,11 +341,15 @@ class EvaluationPipeline:
     
     def compute_uncertainty_metrics(self,res_inference_path,AIcomp_name):
         """
-        This methoid generate operationnal metrics used to evaluate solution quality  
+        This method generates operationnal metrics used to evaluate the Ai component quality  
         It use only internal result_parquet file as input.
+        The computed uncertainty metrics are stored in a yaml file named "uncertainty_scores.yaml" stored in the pipeline results folder.
+
         Parameters:
-            Aicomp_name: Name that will be used as output folder name
-            res_inference_path : Path to parquet file containing inference results of your AI component (shall contains 
+            AIComp_name: str
+                Name that will be used as output folder name
+            res_inference_path : str
+                Path to parquet file containing inference results of your AI component 
         """
         
         # Read inference file

@@ -5,18 +5,18 @@ As it was explained in the main presentation, the aim of this challenge is to bu
 From the evaluation process point of view , the AI component is considered as a black box. It means that the full evaluation process is only based on inference results of the submitted AI component on different datasets. It is not needed to access to the AI component architecture, layers, or gradient of neural network.
 
 Thus the minimal requirement for any solution submitted is to have the following requirement.
-The archive .zip provided by candidates must have the following properties.
 
-The submitted zip folder shall have the following requirements:
-- At least a setup.py file that will be used to build the python package of your AI component. The setup shall include all dependencies. This file could eventually rely on a requirement file
-as it used in the reference solution provided withiin this repository.
+The submitted zip folder to codabench by participant shall have the following requirements:
+
+- A requirements.txt file listing all dependencies with exact versions of needed packages.
+- A setup.py file that will be used to build the python package of your AI component. The setup shall use the requirement.txt file.
 - A folder named challenge_solution that will contain the interface class of your AI component. This class is very important because the evaluation pipeline will only rely on this class 
 to interact with your AI component.
 
-This folder shall contain at least three files :
-- absAIComponent.py : An abstract describing the interface class of your component
-- AIComponent.py : The interface class of your AI component
+This "challenge_solution "folder shall contain at least three files :
 - __init__.py : This is a file that is necessary to ensure that all files in this directory will be integrated to the python package of your component when it will be built .
+- absAIComponent.py : A module containing an abstract class describing the interface class of your component
+- AIComponent.py : The interface module of your AI component that shall contain a class named MyAIComponent describing the interface of your component.
 
 This class shall have at least two main methods that will be used by the evaluation pipeline named:
 - load_model() : load whatever is needed in the virtual env to be able to use the predict method .
@@ -61,16 +61,17 @@ class AbstractAIComponent(ABC):
                 predictions : A list of the predictions given by the AI component among 3 possible values [KO, OK UNKNOWN"]
                 probabilities : A list of 3-values lists containing predicted scores for each sample in this order [proba KO, proba OK, proba UNKNOWN]. sum of proba shall be 1 for each lists  
                 OOD_scores : A list of  OOD score predicted by the AI component for each sample. An ood score is a real positive number. The image is considered OOD when this score is >=1
-                explainabilities  : a list of expllainabilities for each sample . An explainability , is an intensity matrix (a numpy array contaning only real numbers between 0 and 1)
+                explainabilities  : A list of explainabilities for each sample . An explainability is an intensity matrix (a numpy array contaning only real numbers between 0 and 1) representing the importance level of each pixel on input image in the decision leading to the final prediction of your AI component. 
         """
         pass
-We will provide an example a reference solution satisfying this specification soon.
+
 
 ```
 To sum-up, your AI component shall have at least the following files and folder :
 
 ```
 setup.py
+requirements.txt
 challenge_solution/
     __init__.py
 	AIComponent.py
@@ -94,4 +95,4 @@ The submitted AI component will be evaluated according to different quality eval
 - Monitoring metrics : Mesuring the ability of the model to detect if the given input is or not in the ODD and adapt its output in ceonsquence
 - Explainability metric :  Mesuring the ability of the model to give an explanation with its decision to help the operator to gain time in its control
  
-More details about those different criterions will be added in next weeks.
+

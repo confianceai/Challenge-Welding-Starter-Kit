@@ -1,0 +1,8 @@
+pillow==11.0.0
+tqdm==4.67.0
+pandas==2.2.3
+pyaml==25.1.0
+requests==2.32.3
+pyarrow==19.0.0
+scikit-learn==1.6.1
+matplotlib==3.10.0

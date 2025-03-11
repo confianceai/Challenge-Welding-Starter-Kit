@@ -27,7 +27,7 @@ If using uv :
 
 ```uv venv path_to_your_env --python=X.Y```
 
-## Activate your virtual env : 
+## Activate your virtual env
 
 Type in terminal :
 

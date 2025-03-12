@@ -217,8 +217,10 @@ class ChallengeUI:
         # If local cache is activated         
         if self.cache_strategy=="local": 
             print("Cache storage has been activated in ",self.cache_dir)
-                       
-            local_meta_path=self.cache_dir+os.sep+"local_storage_meta.parquet"
+            
+            unique_id=int(input_df.iloc[0]["sample_id"].split("_")[-1])+int(input_df.iloc[-1]["sample_id"].split("_")[-1]) # unique _id associated with input dataframe
+            print("cache_metadata_unique_id",unique_id)
+            local_meta_path=self.cache_dir+os.sep+"local_"+str(unique_id)+"_storage_meta.parquet"
             
             # If metadata have already been downloaded in cache directory (we check specific parquet existence file for that)
             if os.path.exists(local_meta_path):  

@@ -47,12 +47,12 @@ You will find :
 - ```01-Tutorial.py``` : This code shows how to use main user functions present in this package. Wihtin, there are examples about how to listing available datasets, explore metadata, and draw basic statistics on contextual variables.
 - ```02-Create_pytorch_dataloader.py``` : This code show how to use this package to create a Pytorch dataloader. Run this
 example will require to install an additionnal dependency torch==2.6.0
-- ```03-Evaluate_solution.py``` : This script shows how to load an AI component and evaluate it by generating operational and uncertainty metrics 
+- ```03-Test_AIComponent.py``` : This script describe how you can build your own AI component and test it to check if it is compatible with the evaluation pipeline
 
 You have quivalent examples as jupyter-notebooks.
 - ```01-Tutorial.ipynb``` : 
 - ```02-Create_pytorch_dataloader.ipynb```
-- ```03-Evaluate_solution.ipynb```
+- ```03-Test_AIComponent.ipynb```
 
 # Dataset Storage organisation
 

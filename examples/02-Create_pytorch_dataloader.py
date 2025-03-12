@@ -4,12 +4,10 @@ It requires the installation of pytorch==2.6.0
 """
 
 import sys
-# sys.path.insert(0, "..") # For local tests without pkg installation, to make challenge_welding module visible 
-
-from challenge_welding.tools import ChallengeWeldingDataset
-from torch.utils.data import DataLoader
+sys.path.insert(0, "..") # For local tests without pkg installation, to make challenge_welding module visible 
 
 from challenge_welding.user_interface import ChallengeUI
+import challenge_welding.dataloaders
 
 # Initiate the user interface
 
@@ -23,16 +21,17 @@ print(ds_list)
 # In this example we will choose a small dataset
 
 ds_name="example_mini_dataset"
-
+ds_name="welding-detection-challenge-dataset"
 # Load all metadata of your dataset
 
 meta_df=my_challenge_UI.get_ds_metadata_dataframe(ds_name)
 
 # Create your dataloader
-dataloader=my_challenge_UI.create_pytorch_dataloader(input_df=meta_df,
+dataloader=challenge_welding.dataloaders.create_pytorch_dataloader(input_df=meta_df[0:20],
+                                                     cache_strategy=my_challenge_UI.cache_strategy,
+                                                     cache_dir=my_challenge_UI.cache_dir,
                                                      batch_size=100,
-                                                     shuffle=False,
-                                                     )
+                                                     shuffle=False)
 # Test your dataloader       
 for i_batch, sample_batched in enumerate(dataloader):
     print("batch number", i_batch)

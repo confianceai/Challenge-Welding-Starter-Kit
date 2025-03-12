@@ -190,78 +190,7 @@ class ChallengeUI:
         
         return anomalous_samples_list
       
-    def create_pytorch_dataloader(self,input_df,batch_size,shuffle=False, num_workers=0):
-           
-        """This method create a pytorch dataloader from the input dataframe 
-            
-            Args:
-                
-            input_df :pd.DataFrame
-                Dataframe containing the metadata of the dataset for which you want to create a dataloader
-                           
-            batch_size : int
-                Size of the batch
-                
-            num_worker : int
-                Number of workers to be used
-            shuffle: bool
-
-            Return :
-                A pytorch dataloader browsing dataset covered by your input meta dataframe
-        """
-        # Import pytorch specific requirements for this method
-
-        from torch.utils.data import Dataset, DataLoader  
-        from challenge_welding.tools import ChallengeWeldingDataset
-         
-        # If local cache is activated         
-        if self.cache_strategy=="local": 
-            print("Cache storage has been activated in ",self.cache_dir)
-            
-            unique_id=int(input_df.iloc[0]["sample_id"].split("_")[-1])+int(input_df.iloc[-1]["sample_id"].split("_")[-1]) # unique _id associated with input dataframe
-            print("cache_metadata_unique_id",unique_id)
-            local_meta_path=self.cache_dir+os.sep+"local_"+str(unique_id)+"_storage_meta.parquet"
-            
-            # If metadata have already been downloaded in cache directory (we check specific parquet existence file for that)
-            if os.path.exists(local_meta_path):  
-                
-                print("Cache directory has already been built, loading local metadata..")
-                input_df=pd.read_parquet(local_meta_path)
-                
-                print("local metadata loaded !")
-                print(input_df["path"])
-            else:
-                print("Downloading all raw samples in cache storage, please wait . .")
-                local_meta_df=input_df.copy()
-                
-                #Create local cache folder for raw data
-                local_meta_df.set_index("sample_id",inplace=True)
-                for sp in tqdm(local_meta_df.index): # For each sample in dataset
-   
-                    # Define target local path and create directory if necessary 
-                    target_image_name=local_meta_df.loc[sp,"path"]
-                    output_path=self.cache_dir+os.sep+target_image_name.replace("/",os.sep)
-                    print(output_path)
-                    if not os.path.exists(os.sep.join(output_path.split(os.sep)[:-1])):
-                            os.makedirs(os.sep.join(output_path.split(os.sep)[:-1]))
-                    # Download image in cache folder 
-                    urllib.request.urlretrieve (local_meta_df.loc[sp,"external_path"],output_path)
-                
-                # Copy metadataframe to local storage, it will be used to check if all image are already in cache or not
-                local_meta_df.reset_index().to_parquet(local_meta_path)
-                input_df=local_meta_df.copy()
-            
-                print("cache directory_built")
-      
-        print("Creating dataloader . .")
-        # Create a pytorch dataset from your dataset meta dataframe. 
-        challenge_dataset = ChallengeWeldingDataset(input_df,(540,540),self.cache_strategy,self.cache_dir)
-
-        # Create a pytorch dataloader from your dataset
-        dataloader = DataLoader(challenge_dataset, batch_size=batch_size,
-                            shuffle=shuffle, num_workers=num_workers)    
-        
-        return dataloader
+    
     
     
 

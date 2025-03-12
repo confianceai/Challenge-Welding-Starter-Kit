@@ -17,7 +17,7 @@ import numpy as np
 import yaml
   
 #=============================================================================================  
-class TestAiComponent:
+class TestAIComponent:
     """
     This class is made to  test if your AI component is compatible with the evaluation pipeline that will be used to evaluate your solution. 
     It integrates the load process the AI component in the pipeline, and the inference call on an input dataset.
@@ -55,6 +55,12 @@ class TestAiComponent:
         """
         
         import subprocess
+       
+        #
+        
+        if "http" in self.AI_component_path: # if the path in an url on git repository
+                self.AI_component_path= "git+"+self.AI_component_path
+            
        
         # Installation of AI component package in the active test virtual environement
         

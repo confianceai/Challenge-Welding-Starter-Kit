@@ -14,9 +14,9 @@ Starting from this template:
 
 # Additional informations :
 
-You are free to add as many file you want in the ```challenge_solution folder ``` to make your predict and load_model method working. 
+You are free to add as many file you want in the ```challenge_solution``` folder to make your predict and load_model method working. 
 But in this case make sure to those added files in ```MANIFEST.in``` file to ensure that those files will be integrated in the package python of your AI component.
 
-To access to these added files from your code in AIcomponent.py use the ROOT_PATH variable to ensure to point on the challenge_solution_directory in the evaluation environnement
+To access to these added files from your code in AIcomponent.py use the ROOT_PATH variable to ensure to point on the challenge_solution installed directory in the evaluation environnement
 
 

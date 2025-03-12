@@ -10,6 +10,7 @@ import numpy as np
 import os 
 from tqdm import tqdm
 import urllib.request
+import pandas as pd
 
 class ChallengeWeldingDataset(Dataset):
     

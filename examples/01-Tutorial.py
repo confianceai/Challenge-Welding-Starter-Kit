@@ -2,7 +2,7 @@
 This script is an example to show of how to list available datasets, explore data basic properties, and load an images from the repository
 """
 import sys
-# sys.path.insert(0, "..") # Uncomment this line For local tests without pkg installation, to make challenge_welding module visible 
+sys.path.insert(0, "..") # Uncomment this line For local tests without pkg installation, to make challenge_welding module visible 
 from challenge_welding.user_interface import ChallengeUI
 
 # Initiate the user interface

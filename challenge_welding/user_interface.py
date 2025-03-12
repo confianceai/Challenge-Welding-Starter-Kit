@@ -3,17 +3,18 @@ This module contains a class of useful functions to help the user of the challen
 """
 
 # list all required imports
+import os
+from tqdm import tqdm
+import numpy as np
 import pandas as pd
-import requests
+from matplotlib import pyplot as plt
 from io import BytesIO
+import requests
+import urllib.request
 import hashlib
 import yaml
 from PIL import Image
-import numpy as np
-from tqdm import tqdm
-import numpy as np
-import os
-import urllib.request
+
 
 class ChallengeUI:
     """This class provide the user some useful functions to interact with the datasets of the challenge Welding"""
@@ -79,7 +80,7 @@ class ChallengeUI:
         """
         try:
             ds_meta_path=self.base_url+"challenge-welding/datasets/"+ds_name+"/metadata/ds_meta.parquet"
-            print(ds_meta_path)
+            # print(ds_meta_path)
             return pd.read_parquet(ds_meta_path)
         except:
             raise Exception("The dataset", ds_name, "does not exist in the repository")
@@ -133,6 +134,39 @@ class ChallengeUI:
                 raise Exception(" Error , there is no image present on the repository at this url", image_url)
         
         return np.asarray(img)
+    
+    def display_image(self, df: pd.DataFrame, index: int, show_info: bool=False):
+        """This function opens an image and display it
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            the dataset including the images
+        index : int
+            the index of the sample to be visualized in `df`
+        show_info : bool, optional
+            whether to print some additional information
+            
+        Returns: numpy.array : 
+            Numpy array representing the tensor of the input image
+        """
+        sample_df = df.iloc[index]
+        
+        if show_info:
+            print("opening image metadata with idx ..", index)
+            print(sample_df.to_dict())
+        
+        img = self.open_image(sample_df["path"]) # Always Use external_path of sample to open the image
+
+        if show_info:
+            print("size of the opened image", img.shape)
+            
+        plt.figure()
+        plt.imshow(img, interpolation='nearest')
+        plt.title(f"Class: {sample_df["class"]}, blur_class:{sample_df["blur_class"]}")
+        plt.show()
+        
+        return img     
         
     def check_integrity(self,ds_name):
         """This method check the integrity of the dataset whose name is passed as input by comparing for each sample the sha256 of file stored
@@ -227,7 +261,7 @@ class ChallengeUI:
                 input_df=pd.read_parquet(local_meta_path)
                 
                 print("local metadata loaded !")
-                print(input_df["path"])
+                # print(input_df["path"])
             else:
                 print("Downloading all raw samples in cache storage, please wait . .")
                 local_meta_df=input_df.copy()
@@ -239,7 +273,7 @@ class ChallengeUI:
                     # Define target local path and create directory if necessary 
                     target_image_name=local_meta_df.loc[sp,"path"]
                     output_path=self.cache_dir+os.sep+target_image_name.replace("/",os.sep)
-                    print(output_path)
+                    # print(output_path)
                     if not os.path.exists(os.sep.join(output_path.split(os.sep)[:-1])):
                             os.makedirs(os.sep.join(output_path.split(os.sep)[:-1]))
                     # Download image in cache folder 

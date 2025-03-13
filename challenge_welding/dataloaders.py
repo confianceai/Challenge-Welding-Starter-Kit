@@ -115,7 +115,7 @@ def create_pytorch_dataloader(input_df,batch_size,cache_strategy,cache_dir,shuff
                 # Define target local path and create directory if necessary 
                 target_image_name=local_meta_df.loc[sp,"path"]
                 output_path=cache_dir+os.sep+target_image_name.replace("/",os.sep)
-                print(output_path)
+                
                 if not os.path.exists(os.sep.join(output_path.split(os.sep)[:-1])):
                         os.makedirs(os.sep.join(output_path.split(os.sep)[:-1]))
                 # Download image in cache folder 
@@ -134,7 +134,7 @@ def create_pytorch_dataloader(input_df,batch_size,cache_strategy,cache_dir,shuff
     # Create a pytorch dataloader from your dataset
     dataloader = DataLoader(challenge_dataset, batch_size=batch_size,
                         shuffle=shuffle, num_workers=num_workers)    
-    
+    print( "Dataloader created")
     return dataloader
 
 

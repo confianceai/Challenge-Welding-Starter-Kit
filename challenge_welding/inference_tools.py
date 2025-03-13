@@ -148,6 +148,7 @@ class TestAIComponent:
             output_df.loc[batch_sample_ids,"predicted_state"]=results["predictions"]
             output_df.loc[batch_sample_ids,"scores KO"]=[x[0] for x in results["probabilities"]]
             output_df.loc[batch_sample_ids,"scores OK"]=[x[1] for x in results["probabilities"]]
+            output_df.loc[batch_sample_ids,"scores UNKNOWN"]=[x[2] for x in results["probabilities"]]
             output_df.loc[batch_sample_ids,"scores OOD"]=results["OOD_scores"]
             output_df.loc[batch_sample_ids,"compute_time"]=(inference_end_time-inference_start_time)/len(batch_sample_ids)
             

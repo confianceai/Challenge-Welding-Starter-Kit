@@ -14,6 +14,7 @@ from tqdm import tqdm
 import numpy as np
 import os
 import urllib.request
+from matplotlib import pyplot as plt
 
 class ChallengeUI:
     """This class provide the user some useful functions to interact with the datasets of the challenge Welding"""
@@ -133,7 +134,40 @@ class ChallengeUI:
                 raise Exception(" Error , there is no image present on the repository at this url", image_url)
         
         return np.asarray(img)
+    
+    def display_image(self, df: pd.DataFrame, index: int, show_info: bool=False):
+        """This function opens an image and display it
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            the dataset including the images
+        index : int
+            the index of the sample to be visualized in `df`
+        show_info : bool, optional
+            whether to print some additional information
+            
+        Returns: numpy.array : 
+            Numpy array representing the tensor of the input image
+        """
+        sample_df = df.iloc[index]
         
+        if show_info:
+            print("opening image metadata with idx ..", index)
+            print(sample_df.to_dict())
+        
+        img = self.open_image(sample_df["path"]) 
+
+        if show_info:
+            print("size of the opened image", img.shape)
+            
+        plt.figure()
+        plt.imshow(img, interpolation='nearest')
+        plt.title(f"Class: {sample_df["class"]}, blur_class:{sample_df["blur_class"]}")
+        plt.show()
+        
+        return img     
+  
     def check_integrity(self,ds_name):
         """This method check the integrity of the dataset whose name is passed as input by comparing for each sample the sha256 of file stored
         with those present in the metadata . The list of abnormal sample is stored in a yaml file named anomalies_sample_list.yaml 

@@ -8,21 +8,19 @@ Thus the minimal requirement for any solution submitted is to have the following
 
 The submitted zip folder to codabench by participant shall have the following requirements:
 
-- A requirements.txt file listing all dependencies with exact versions of needed packages.
-- A setup.py file that will be used to build the python package of your AI component. The setup shall use the requirement.txt file.
-- A folder named challenge_solution that will contain the interface class of your AI component. This class is very important because the evaluation pipeline will only rely on this class 
-to interact with your AI component.
+A "challenge_solution "folder shall contain at least three files :
+- ```__init__.py``` : This is a file that is necessary to ensure that all files in this directory will be integrated to the python package of your component when it will be built .
+- ```AIComponent.py``` : The interface module of your AI component that shall contain a class named ```MyAIComponent``` describing the interface of your component.
 
-This "challenge_solution "folder shall contain at least three files :
-- __init__.py : This is a file that is necessary to ensure that all files in this directory will be integrated to the python package of your component when it will be built .
-- absAIComponent.py : A module containing an abstract class describing the interface class of your component
-- AIComponent.py : The interface module of your AI component that shall contain a class named MyAIComponent describing the interface of your component.
-
-This class shall have at least two main methods that will be used by the evaluation pipeline named:
+This class shall have at least two main methods that will be used by the evaluation pipeline named :
 - load_model() : load whatever is needed in the virtual env to be able to use the predict method .
 - predict() : Perform predictions on a list of input images, and return the list of predictions.
 
-This interface class statisfy the following abstract class
+- A ```requirements.txt``` file listing all dependencies with exact versions of needed packages.
+- A ```setup.py``` file that will be used to build the python package of your AI component. This setup shall use the requirement.txt file.
+- A ```MANIFEST.IN``` file that is needed to  list all additionnal files you may have added to be used in your  ```challenge_solution``` folder to ensure that they will be integrated in your AI component python package
+
+This interface class statisfy the following abstract class given in file challenge-welding/AIComponent_interface.py
 
 ```
 class AbstractAIComponent(ABC):
@@ -71,11 +69,11 @@ To sum-up, your AI component shall have at least the following files and folder 
 
 ```
 setup.py
+MANIFEST.in
 requirements.txt
 challenge_solution/
     __init__.py
 	AIComponent.py
-	absAIComponent.py
 ```
 You are free to add any other files you need to this structure in order to make your AI component working.
 
@@ -83,16 +81,20 @@ You are free to add any other files you need to this structure in order to make 
 
 An example of such AI component is provided in this repository in this folder ```reference-solutions/Solution-1/ ```.
 This AI component is not designed to have good performance but just to show what is expected to be compatible with the evaluation pipeline
-An example of script evaluating this AI component through the evaluation pipeline is given [here](../examples/03-Evaluate_solution.ipynb)
+An example of script loading this AI component and test it via inference computations is given [here](../examples/03-Test_AIComponent.ipynb)
 
 # Evaluation process
 
-The submitted AI component will be evaluated according to different quality evaluation metrics like. 
+The submitted AI component will be evaluated according to different quality evaluation metrics like:
 
-- Operationnal cost metrics : That is based on confusion matrix and non symetrical cost matrix due to operationnal constraincts.
-- Uncertainty metrics : Mesuring the ability of the model to use uncertainty to improve trustworthy about its output
-- Robustness metrics :  Mesuring the ability for the model to be invariant to empirical pertubations on input images (blur, luminosity, rotation translation)
-- Monitoring metrics : Mesuring the ability of the model to detect if the given input is or not in the ODD and adapt its output in ceonsquence
-- Explainability metric :  Mesuring the ability of the model to give an explanation with its decision to help the operator to gain time in its control
+- Operationnal metrics: Measure the gain brought the AI component compared to a human only qualification process. This metrics is based on the confusion matrix and penalize strongly false negative predictions.
+
+- Uncertainty metrics: Measure the ability of the AI component to produce a calibrated prediction confidence indicator expressing risk of model errors.
+
+- Robustness metrics: Measure the ability of the AI component to have invariant output is images have slight perturbations (blut, luminosity, rotation, translation)
+
+- Monitoring metrics: Measure the ability of the AI component to detect if an input image is ood, and gives the appropriate output ->Unknown
+
+- Explainability metrics: Measure the ability of the AI component to give appropriate explanations
  
 

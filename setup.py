@@ -15,6 +15,5 @@ setup(name='challenge-welding',
       author_email='challenge.confiance@irt-systemx.fr',
       url='https://www.irt-systemx.fr/en/',
       packages=["challenge_welding"],
-      license="TODO",
       install_requires=parse_requirements('requirements.txt')
      )

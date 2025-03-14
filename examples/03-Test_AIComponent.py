@@ -5,7 +5,7 @@
 import sys
 sys.path.insert(0, "..") # Uncomment this line For local tests without pkg installation, to make challenge_welding module visible 
 from challenge_welding.user_interface import ChallengeUI
-from challenge_welding.inference_tools import TestAiComponent
+from challenge_welding.inference_tools import TestAIComponent
 
 #1) Load a dataset to test 
 
@@ -19,10 +19,11 @@ my_challenge_UI=ChallengeUI()
 evaluation_ds_meta_df=my_challenge_UI.get_ds_metadata_dataframe(ds_name)
 
 # Define path of AI component to test
-AI_comp_path="../../Challenge-Welding-Reference-Solution-1"
+# AI_comp_path="../../Challenge-Welding-Reference-Solution-1"
+AI_comp_path="https://github.com/confianceai/Challenge-Welding-Reference-Solution-1"
 
 # Initialize test pipeline
-my_test_pipeline=TestAiComponent(proposed_solution_path=AI_comp_path, # Set here the AI component path you want to evaluate
+my_test_pipeline=TestAIComponent(proposed_solution_path=AI_comp_path, # Set here the AI component path you want to evaluate
                               meta_root_path="starter_kit_test_pipeline_results", # set name of output directory that will store the pipeline results
                               cache_strategy="local", # In this on local, all image used for evaluation , will be locally stored in a cache directory
                               cache_dir="test_cache") # chosen directory for cache

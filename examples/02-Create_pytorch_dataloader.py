@@ -21,7 +21,7 @@ print(ds_list)
 # In this example we will choose a small dataset
 
 ds_name="example_mini_dataset"
-ds_name="welding-detection-challenge-dataset"
+
 # Load all metadata of your dataset
 
 meta_df=my_challenge_UI.get_ds_metadata_dataframe(ds_name)

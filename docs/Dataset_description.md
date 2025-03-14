@@ -25,7 +25,7 @@ A parquet file is a format  representing a dataframe. For each sample the follow
 
 ### Example_mini_dataset
 For now, a first example of dataset is provided . Purpose of this dataset named "example_mini_dataset" is to a give an overview of the final dataset that would be provided for the official start of this challenge.
-This dataset contains 2857 images of weldings repartited on 3 different welding-seams (c102,c20,C33).
+This dataset contains 2857 images of weldings splitted into 3 different welding-seams (c102,c20,C33).
 The metadata file of this dataset can be found here : [example_mini_dataset metadata](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/example_mini_dataset/metadata/ds_meta.parquet)
 
 This an example of the first 9 rows of this metadescription file
@@ -37,4 +37,4 @@ The whole dataset can be downloaded directly as a zip file : [Download example_m
 #### Welding-detection-challenge-dataset
 
 The final dataset provided with this challenge is named ```welding-detection-challenge-dataset```. It contains 22753 images of weldings covering three different welding-seams named c20, c102 anc c33.
-The metadata file of this dataset can be found here : [welding-detection-](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset/metadata/ds_meta.parquet)
+The metadata file of this dataset can be found here : [welding-detection-challenge-dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset/metadata/ds_meta.parquet)

@@ -28,6 +28,27 @@ jobs:
           pip install black
           black --check --diff .
 
+
+  pylint-format-check: # Check that the codebase is formatted with black
+    name: Pylint format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.12
+      - name: Install dependencies and check black format
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+          mkdir -p docs/build/pylint
+          pylint challenge_welding --output-format=text --exit-zero | tee docs/build/pylint/pylint.txt 
+          PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' docs/build/pylint/pylint.txt )
+          echo "Pylint score is $PYLINT_SCORE"
+          pylint challenge_welding 
+  
+
   flake8-check: # Check that the codebase does not contain linting errors
     name: Flake8 check
     runs-on: ubuntu-latest

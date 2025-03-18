@@ -1,12 +1,14 @@
-from distutils.core import setup
+"""
+This module defines how the python package challenge-welding shall be built
+"""
+
+from setuptools import setup
 
 def parse_requirements(filename):
     """ load requirements from a pip requirements file """
-    with open(filename) as f:
+    with open(filename,encoding="utf-8") as f:
         required = f.read().splitlines()
     return required
-
-
 
 setup(name='challenge-welding',
       version='0.1',
@@ -16,4 +18,4 @@ setup(name='challenge-welding',
       url='https://www.irt-systemx.fr/en/',
       packages=["challenge_welding"],
       install_requires=parse_requirements('requirements.txt')
-     )
+)

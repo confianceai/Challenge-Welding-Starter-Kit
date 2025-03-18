@@ -8,7 +8,6 @@ import os
 import time
 import subprocess
 from tqdm import tqdm
-from challenge_solution.AIComponent import MyAIComponent
 import challenge_welding.user_interface
 
 
@@ -69,7 +68,7 @@ class TestAIComponent:
         subprocess.check_call(["pip", "install", self.ai_component_path])
 
         # Import your AI component in the test environnement
-
+        from challenge_solution.AIComponent import MyAIComponent
         # Init the AI component via its interface
         self.ai_component = MyAIComponent()
 

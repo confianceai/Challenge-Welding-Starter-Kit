@@ -35,7 +35,7 @@ my_test_pipeline.load_proposed_solution()
 
 result_df=my_test_pipeline.perform_grouped_inference(evaluation_dataset=evaluation_ds_meta_df,
                                        results_inference_path=my_test_pipeline.meta_root_path+"/res_inference.parquet",
-                                       batch_size=100) 
+                                       batch_size=150) 
 
 print("inference_results output")
 print(result_df)

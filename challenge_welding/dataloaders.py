@@ -3,12 +3,8 @@ This module contains example codes to create dataloader from challenge datasets
 """
 
 # Import dependencies modules
-import urllib.request
-import os
 from PIL import Image
 import numpy as np
-from tqdm import tqdm
-import pandas as pd
 from torch.utils.data import Dataset, DataLoader
 from challenge_welding.user_interface import ChallengeUI
 
@@ -70,6 +66,9 @@ class ChallengeWeldingDataset(Dataset):
         # Apply resizing if it was given as parameters
         if self.resize:
             img = Image.fromarray(sample["image"], "RGB")
+            # WARNING : Resolution format from raw dataset generate bug in pytorch
+            # associate a list in this key)
+            # Same change shall be applied in transform
             sample["meta"]["resolution"] = list(
                 self.resize
             )  # update resolution field of image metadata
@@ -106,8 +105,6 @@ def create_pytorch_dataloader(
         A pytorch dataloader browsing dataset covered by your input meta dataframe
     """
 
-    print("Creating dataloader . .")
-
     # Create a pytorch dataloader from your dataset
     dataloader = DataLoader(
         dataset,
@@ -115,5 +112,5 @@ def create_pytorch_dataloader(
         shuffle=shuffle,
         num_workers=num_workers,
     )
-    print("Dataloader created")
+
     return dataloader

@@ -1,0 +1,21 @@
+[project]
+name = "challenge-welding"
+dynamic = ["version", "dependencies"]
+description='Set of tools functions to help challenge Welding users to interacts with challenge datasets'
+author='IRT SystemX'
+author_email='challenge.confiance@irt-systemx.fr'
+url='https://www.irt-systemx.fr/en/'
+readme = "README.md"
+requires-python = ">=3.12"
+
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch]
+version.source = "vcs"
+build.hooks.vcs.version-file = "challenge_welding/_version_.py"
+
+[tool.hatch.dependencies]
+path = "requirements.txt"

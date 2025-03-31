@@ -5,6 +5,7 @@ This module contains all code needed by the evaluation pipeline
 # Import here all required dependencies
 
 import os
+import sys
 import time
 import subprocess
 from tqdm import tqdm
@@ -60,13 +61,15 @@ class TestAIComponent:
         - Call of the load_model() method of the AI component interface.
         """
 
-        if "http" in self.ai_component_path:  # if the path in an url on git repository
-            self.ai_component_path = "git+" + self.ai_component_path
+       #if "http" in self.ai_component_path:  # if the path in an url on git repository
+        #    self.ai_component_path = "git+" + self.ai_component_path
 
         # Installation of AI component package in the active test virtual environement
 
-        subprocess.check_call(["pip", "install", self.ai_component_path])
-
+        #subprocess.check_call(["pip", "install", self.ai_component_path])
+        
+        sys.path.insert(0, self.ai_component_path)  # Ajout du chemin du composant à PYTHONPATH
+        
         # Import your AI component in the test environnement
         from challenge_solution.AIComponent import MyAIComponent
         # Init the AI component via its interface

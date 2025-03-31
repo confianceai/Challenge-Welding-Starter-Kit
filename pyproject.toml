@@ -19,3 +19,4 @@ build.hooks.vcs.version-file = "challenge_welding/_version_.py"
 
 [tool.hatch.dependencies]
 path = "requirements.txt"
+

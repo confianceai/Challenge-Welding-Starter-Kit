@@ -30,7 +30,7 @@ class AbstractAIComponent(ABC):
 
     @abstractmethod
     def predict(
-        self, input_images: list[np.ndarray], images_meta_informations: list[dict]
+        self, input_images: list[np.ndarray], images_meta_informations: list[dict], device: str = 'cuda'  
     ) -> dict:
         """
         Abstract method to make predictions using the AI component.
@@ -40,6 +40,8 @@ class AbstractAIComponent(ABC):
                 The list of images numpy arrays
             images_meta_information: list[dict]
                 The list of images metadata dictionaries
+            device: str
+                The device to run the model on. Can be 'cpu' or 'cuda'. Default is 'cuda'.
 
         Returns:
             A dict containing 4 keys "predictions", "probabilities", "OOD_scores"(optional),"explainability"(optional).

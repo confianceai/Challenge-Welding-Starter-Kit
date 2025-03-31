@@ -17,15 +17,15 @@ class MyAIComponent(AbstractAIComponent):
         """
          Init a ML-component 
         """ 
-    
-    )
-            
-    def predict(self,input_images, images_meta_informations):
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+          
+    def predict(self,input_images, images_meta_informations, device=None):
         """
         Perform a prediction using the appropriate model.
         Parameters:
             input_images: A list of NumPy arrays representing the list of images where you need to make predictions.
-            image_meta_informations: List of Metadata dictionaries corresponding to metadata of input images
+            image_meta_informations: List of Metadata dictionaries corresponding to metadata of input images.
+            device: The device to run the model on. Default is the device set in the constructor ('cuda' if available, otherwise 'cpu').
         Returns:
             A dict containing 4 keys "predictions", "probabilities", "OOD_scores"(optional),"explainability"(optional). 
                 predictions : A list of the predictions given by the AI component among 3 possible values [KO, OK UNKNOWN"]
@@ -33,6 +33,8 @@ class MyAIComponent(AbstractAIComponent):
                 OOD_scores : A list of  OOD score predicted by the AI component for each sample. An ood score is a real positive number. The image is considered OOD when this score is >=1
                 explainabilities  : a list of expllainabilities for each sample . An explainability , is an intensity matrix (a numpy array contaning only real numbers between 0 and 1)
         """
+        if device is None:
+            device = self.device
 
         return {"predictions" : None , "probabilities": None , "OOD_scores": None,  "explainabilities": None}
 

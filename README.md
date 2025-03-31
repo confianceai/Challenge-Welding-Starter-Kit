@@ -1,8 +1,5 @@
 # Welding quality detection challenge starter-kit
 
-This repository contain a python package containing useful functions to help the challenge users to interact with the datasets.
-We consider in the following sections a dataset as a collection of samples. In our challenge, a "sample" is a single image. 
-
 We recall the website of this challenge: https://confianceai.github.io/Welding-Quality-Detection-Challenge/
 
 For any issues or technical support : please contact challenge.confiance@irt-systemx.fr
@@ -54,23 +51,6 @@ pip install .
 pip install -r requirements.txt
 ```
 
-# Starter kit content
-The scripts and Jupyter notebooks are provided in [example](examples) directory to guide the participants through the different utilities developed to facilitate the dataset manipulation and AI component development and evaluation:
-
-- ```01-Tutorial.py``` : This code shows how to use main user functions present in this package. Wihtin, there are examples about how to listing available datasets, explore metadata, and draw basic statistics on contextual variables.
-
-- ```02-Create_pytorch_dataloader.py``` : This code shows how to use this package to create a Pytorch dataloader.
-
-- ```03-Test_AIComponent.py``` : This script shows how to load an AI component and evaluate it by generating operational and uncertainty metrics. 
-
-These scripts are also available as jupyter-notebooks, where we provide more information concerning the usecase, the dataset and the AI component to be developed and evaluated: 
-
-- ```01-Tutorial.ipynb``` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/confianceai/Challenge-Welding-Starter-Kit/blob/main/examples/01-Tutorial.ipynb) 
-
-- ```02-Create_pytorch_dataloader.ipynb``` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/confianceai/Challenge-Welding-Starter-Kit/blob/main/examples/02-Create_pytorch_dataloader.ipynb) 
-
-- ```03-Test_AIComponent.ipynb``` [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/confianceai/Challenge-Welding-Starter-Kit/blob/main/examples/03-Test_AIComponent.ipynb) 
-
 # Dataset Storage organisation
 
 The list of available datasets is present in a yaml file at the following url
@@ -88,18 +68,7 @@ Look the [Dataset informations](docs/Dataset_description.md) for more informatio
 
 Look the [Solution requirements and evaluation process](docs/Requirements_and_Evaluation_process.md) to get informations about the expected solution and the way it will be evaluated
 
-An exemple of AI Component is provided within this repository but only to show an example of the expected architecture. The model has not been trained to be performant and efficient for this challenge.
-
-
-
-
-
-
-
-
-
-
-
+An exemple of AI Component is provided [here](https://github.com/confianceai/Challenge-Welding-Reference-Solution-1/tree/main), only to show an example of the expected architecture. The model has not been trained to be performant and efficient for this challenge.
 
 
 - ```01-Tutorial.py``` : This code shows how to use main user functions present in this package. Wihtin, there are examples about how to listing available datasets, explore metadata, and draw basic statistics on contextual variables.

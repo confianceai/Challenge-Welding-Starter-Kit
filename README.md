@@ -50,6 +50,10 @@ To install the package Challenge Welding and its dependencies, from the root dir
 pip install .
 ```
 
+```commandline 
+pip install -r requirements.txt
+```
+
 # Starter kit content
 The scripts and Jupyter notebooks are provided in [example](examples) directory to guide the participants through the different utilities developed to facilitate the dataset manipulation and AI component development and evaluation:
 

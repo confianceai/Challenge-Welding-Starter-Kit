@@ -154,7 +154,7 @@ class TestAIComponent:
             # Call AI component predict method  and pass the batch content as input
 
             inference_start_time = time.time()
-            results = self.ai_component.predict(batch_images_data, batch_images_meta)
+            results = self.ai_component.predict(batch_images_data, batch_images_meta, device='cuda')
             inference_end_time = time.time()
 
             # Update meta dataframe with inference results for all samples in the current batch

@@ -6,20 +6,20 @@ A parquet file is a format  representing a dataframe. For each sample the follow
 
 | **Field**             | **Description** |
 |----------------------|----------------|
-|sample_id|Unique identifier for the sample. It follows the template "data_X" |
-|class|Real state of the welding present on the image, this is the ground_truth . Two values are possible OK or KO|
-|timestamp |Datetime where the photo has been taken, this field shall not be useful  |
-|welding-seams | Name of the welding seams whose welding belongs to . The welding-seams are named "c_X"|
-|labelling_type | Type of human that annotated the data . two possible values : "expert" or "operator"|
-|resolution | List contining the resolution of the image [width, height]|
-|path | Internal path of the image in the challenge storage |
-|sha256 | Sha256 of the image . It's a unique hexadecimal key representing the image data. This is used to detect alteration of corruption on the storage|
-|storage_type |Type of storage where sample is stored : "s3" or "filesystem" |
-|data-origin | Type of data. This field has two possible values (real or synthetic)|
-|blur_level | Level of blur on the image. This measure has been made numerically using opencv library. Lesser is this value , blurer the image is .|
-|blur_class | Class of blur deduced from blur-level field. Two class are considered "blur", and "clean".  The value is set to "blur" when blur level is inferior to 950|
-|lumninosity_level | Percentage of luminosity of the image, mesured numerically|
-|external_path | Url of the image. This url shall be used by Challengers to directly download the sample from the dataset from storage|
+|sample_id| Unique identifier for the sample, following the template "data_X". |
+|class| Real state of the welding present in the image; this is the ground truth. Two values are possible: OK or KO.|
+|timestamp | Datetime when the photo was taken; this field is not expected to be useful.|
+|welding-seams | Name of the welding seam to which the welding belongs. Welding seams are named "c_X".|
+|labelling_type | Type of person who annotated the data. Two possible values: "expert" or "operator".|
+|resolution | List containing the resolution of the image [width, height].|
+|path | Internal path of the image in the challenge storage.|
+|sha256 | A unique hexadecimal key representing the image data, used to detect alteration or corruption in the storage.|
+|storage_type | Type of sample storage: "s3" or "filesystem".|
+|data-origin | 	Type of data. This field has two possible values: "real" or "synthetic". The provided datasets contain only real samples.|
+|blur_level | Level of blur in the image, measured numerically using OpenCV. The lower this value, the blurrier the image.|
+|blur_class | Class of blur deduced from the "blur_level" field. Two classes are considered: "blur" and "clean". The value is set to "blur" when the blur level is below 950.|
+|lumninosity_level | Percentage of luminosity in the image, measured numerically.|
+|external_path | URL of the image. This URL can be used by challengers to directly download the sample from storage.|
 
 ## Dataset example
 

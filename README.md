@@ -94,12 +94,6 @@ This file is accessible for a dataset named : "YOUR_DS_NAME" at :
 
 Look the [Dataset informations](docs/Dataset_description.md) for more informations about metadescription contents
 
-# Expected AI solution
-
-Look the [Solution requirements and evaluation process](docs/Requirements_and_Evaluation_process.md) to get informations about the expected solution and the way it will be evaluated
-
-An exemple of AI Component is provided within this repository but only to show an example of the expected architecture. The model has not been trained to be performant and efficient for this challenge.
-
 
 
 

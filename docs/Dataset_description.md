@@ -37,6 +37,6 @@ The dataset can be downloaded directly as a ZIP file: [Download example_mini_dat
 he complete dataset provided for this challenge is named ```welding-detection-challenge-dataset```. It contains 22,753 images of welding, covering three different welding seams: c20, c102, and c33.
 The metadata file of this dataset can be found here : [welding-detection-challenge-dataset metadata](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset/metadata/ds_meta.parquet)
 
-```Please note that this complete dataset is the one required for the challenge```.
+**Please note that this complete dataset is the one required for the challenge**.
 
 The full dataset can be downloaded as a ZIP file: [Download welding-detection-challenge-dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset.zip)]

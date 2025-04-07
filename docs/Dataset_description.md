@@ -1,8 +1,7 @@
 
 ## Dataset metadescriptoin
 
-All datasets accessible in the challenge are described with a parquet file containing the metadescription of a sample
-A parquet file is a format  representing a dataframe. For each sample the following fields are acessible :
+A dataset available in this challenge is described using a Parquet file containing metadata for all samples within the dataset. A Parquet file represents a dataframe. For each sample, the following fields are available:
 
 | **Field**             | **Description** |
 |----------------------|----------------|
@@ -24,19 +23,20 @@ A parquet file is a format  representing a dataframe. For each sample the follow
 ## Dataset example
 
 ### Example_mini_dataset
-For now, a first example of dataset is provided . Purpose of this dataset named "example_mini_dataset" is to a give an overview of the final dataset that would be provided for the official start of this challenge.
-This dataset contains 2857 images of weldings splitted into 3 different welding-seams (c102,c20,c33).
-The metadata file of this dataset can be found here : [example_mini_dataset metadata](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/example_mini_dataset/metadata/ds_meta.parquet)
+A reduced sample of the dataset "example_mini_dataset" is provided to give an overview of the final dataset for this challenge. This sample contains 2,857 images of welding, split into three different welding seams: c102, c20, and c33.
+The metadata file for this dataset can be found here: [example_mini_dataset metadata](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/example_mini_dataset/metadata/ds_meta.parquet)
 
-This an example of the first 9 rows of this metadescription file
+Below is an example of the first nine rows from the metadata file:
 
 ![meta example](assets/meta_example.png)
 
-The whole dataset can be downloaded directly as a zip file : [Download example_mini_dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/example_mini_dataset.zip)]
+The dataset can be downloaded directly as a ZIP file: [Download example_mini_dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/example_mini_dataset.zip)]
 
 #### Welding-detection-challenge-dataset
 
-The final dataset provided with this challenge is named ```welding-detection-challenge-dataset```. It contains 22753 images of weldings covering three different welding-seams named c20, c102 anc c33.
+he complete dataset provided for this challenge is named ```welding-detection-challenge-dataset```. It contains 22,753 images of welding, covering three different welding seams: c20, c102, and c33.
 The metadata file of this dataset can be found here : [welding-detection-challenge-dataset metadata](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset/metadata/ds_meta.parquet)
 
-The whole dataset can be downloaded directly as a zip file : [Download welding-detection-challenge-dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset.zip)]
+```Please note that this complete dataset is the one required for the challenge```.
+
+The full dataset can be downloaded as a ZIP file: [Download welding-detection-challenge-dataset](https://minio-storage.apps.confianceai-public.irtsysx.fr/challenge-welding/datasets/welding-detection-challenge-dataset.zip)]

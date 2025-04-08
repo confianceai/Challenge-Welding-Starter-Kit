@@ -30,7 +30,7 @@ class AbstractAIComponent(ABC):
 
     @abstractmethod
     def predict(
-        self, input_images: list[np.ndarray], images_meta_informations: list[dict], device: str = 'cuda'  
+        self, input_images: list[np.ndarray], images_meta_informations: list[dict], device: str='cuda'  
     ) -> dict:
         """
         Abstract method to make predictions using the AI component.

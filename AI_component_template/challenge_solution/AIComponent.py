@@ -31,12 +31,12 @@ class MyAIComponent(AbstractAIComponent):
                 predictions : A list of the predictions given by the AI component among 3 possible values [KO, OK UNKNOWN"]
                 probabilities : A list of 3-values lists containing predicted scores for each sample in this order [proba KO, proba OK, proba UNKNOWN]. sum of proba shall be 1 for each lists  
                 OOD_scores : A list of  OOD score predicted by the AI component for each sample. An ood score is a real positive number. The image is considered OOD when this score is >=1
-                explainabilities  : a list of expllainabilities for each sample . An explainability , is an intensity matrix (a numpy array contaning only real numbers between 0 and 1)
+                
         """
         if device is None:
             device = self.device
 
-        return {"predictions" : None , "probabilities": None , "OOD_scores": None,  "explainabilities": None}
+        return {"predictions" : None , "probabilities": None , "OOD_scores": None}
 
     
     def load_model(self):

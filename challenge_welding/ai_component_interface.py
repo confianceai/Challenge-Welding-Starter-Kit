@@ -51,6 +51,5 @@ class AbstractAIComponent(ABC):
                 [proba KO, proba OK, proba UNKNOWN]. sum of proba shall be 1 for each lists
                 OOD_scores : A list of  OOD score predicted by the AI component for each sample. An ood score is a real
                  positive number. The image is considered OOD when this score is >=1
-                explainabilities  : a list of expllainabilities for each sample . An explainability , is an intensity
-                matrix (a numpy array contaning only real numbers between 0 and 1)
+                
         """

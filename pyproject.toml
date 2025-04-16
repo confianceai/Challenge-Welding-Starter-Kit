@@ -7,7 +7,7 @@ author_email='challenge.confiance@irt-systemx.fr'
 url='https://www.irt-systemx.fr/en/'
 readme = "README.md"
 license ="MPL-2.0"
-requires-python = ">=3.12"
+requires-python = "==3.10"
 
 
 [build-system]
